@@ -29,8 +29,8 @@
       margin: 40px auto;
       padding: 40px;
       background-color: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
@@ -165,7 +165,8 @@
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
-    particlesJS('particles-js', {
+    // パーティクルの設定
+    const particleConfig = {
       particles: {
         number: {
           value: 150,
@@ -231,27 +232,53 @@
         }
       },
       retina_detect: true
+    };
+
+    // パーティクルの初期化関数
+    function initParticles() {
+      particlesJS('particles-js', particleConfig);
+
+      // 青色のグラデーションアニメーション
+      let blueHue = 220;
+      return setInterval(() => {
+        if (!pJSDom || !pJSDom[0] || !pJSDom[0].pJS) return;
+
+        const pJS = pJSDom[0].pJS;
+        const particles = pJS.particles.array;
+
+        // パーティクルの色を更新（青色の範囲でランダム）
+        particles.forEach(particle => {
+          particle.color.value = `hsl(${220 + Math.random() * 20}, 80%, ${45 + Math.random() * 20}%)`;
+        });
+
+        // 線の色を更新
+        const lineColor = `hsl(220, 80%, 60%)`;
+        pJS.particles.line_linked.color = lineColor;
+        pJS.particles.line_linked.color_rgb_line = pJS.fn.hexToRgb(lineColor);
+
+        // キャンバスを再描画
+        pJS.fn.particlesRefresh();
+      }, 50);
+    }
+
+    // 初期化
+    let colorInterval = initParticles();
+
+    // リサイズイベントの処理
+    let resizeTimeout;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimeout);
+      clearInterval(colorInterval);
+
+      resizeTimeout = setTimeout(function () {
+        // パーティクルを再初期化
+        if (pJSDom && pJSDom.length) {
+          pJSDom[0].pJS.fn.vendors.destroypJS();
+          pJSDom = [];
+        }
+        colorInterval = initParticles();
+      }, 250);
     });
-
-    // 青色のグラデーションアニメーション
-    let blueHue = 220;
-    setInterval(() => {
-      const pJS = pJSDom[0].pJS;
-      const particles = pJS.particles.array;
-
-      // パーティクルの色を更新（青色の範囲でランダム）
-      particles.forEach(particle => {
-        particle.color.value = `hsl(${220 + Math.random() * 20}, 80%, ${45 + Math.random() * 20}%)`;
-      });
-
-      // 線の色を更新
-      const lineColor = `hsl(220, 80%, 60%)`;
-      pJS.particles.line_linked.color = lineColor;
-      pJS.particles.line_linked.color_rgb_line = pJS.fn.hexToRgb(lineColor);
-
-      // キャンバスを再描画
-      pJS.fn.particlesRefresh();
-    }, 50);
   </script>
 </body>
 
