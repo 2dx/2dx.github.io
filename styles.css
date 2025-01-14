@@ -38,6 +38,29 @@ h2 .mobile-break {
     display: none;
 }
 
+h3 {
+    color: #ffffff;
+    margin-top: 40px;
+    font-size: 1.6em;
+    border-bottom: 2px solid #4169e1;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-text {
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+}
+
+.profile-text p {
+    margin-bottom: 1.5em;
+    text-align: justify;
+}
+
+.profile-text p:last-child {
+    margin-bottom: 0;
+}
+
 h4 {
     color: #ffffff;
     margin-top: 40px;
@@ -104,5 +127,32 @@ img {
 
     h2 .mobile-break {
         display: inline;
+    }
+}
+
+.gallery {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+}
+
+.gallery-item {
+    aspect-ratio: 1;
+    max-width: calc((100% - 40px) / 3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 600px) {
+    .gallery {
+        display: none;
+    }
+
+    .container {
+        margin: 20px;
+        padding: 20px;
     }
 }
